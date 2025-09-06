@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Builder Admin</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      display: flex;
+      height: 100vh;
+    }
+    #sidebar {
+      width: 250px;
+      background: #f4f4f4;
+      border-right: 1px solid #ddd;
+      padding: 1rem;
+      overflow-y: auto;
+    }
+    #main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+    #editor {
+      flex: 1;
+      width: 100%;
+      padding: 1rem;
+      border: none;
+      font-family: monospace;
+      font-size: 14px;
+      outline: none;
+    }
+    #preview {
+      flex: 1;
+      border: none;
+      width: 100%;
+    }
+    #buttons {
+      display: flex;
+      gap: 0.5rem;
+      padding: 0.5rem;
+      border-top: 1px solid #ddd;
+      background: #fafafa;
+    }
+    button {
+      padding: 0.5rem 1rem;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      background: #0077cc;
+      color: white;
+      font-size: 14px;
+    }
+    button:hover {
+      background: #005fa3;
+    }
+    h3 {
+      margin-top: 1rem;
+      font-size: 16px;
+    }
+    ul {
+      padding-left: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div id="sidebar">
+    <h3>📝 Informations</h3>
+    <div id="info"></div>
+
+    <h3>📋 Table des matières</h3>
+    <ul id="toc"></ul>
+  </div>
+
+  <div id="main">
+    <textarea id="editor" placeholder="# Titre de l’article\n\nÉcris ton contenu en Markdown..."></textarea>
+    <iframe id="preview"></iframe>
+    <div id="buttons">
+      <button id="btn-preview">Aperçu</button>
+      <button id="btn-save">Sauvegarder</button>
+      <button id="btn-export">Exporter</button>
+    </div>
+  </div>
+
+  <script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const textarea = document.getElementById("editor");
+    const previewFrame = document.getElementById("preview");
+    const tocList = document.getElementById("toc");
+    const infoBox = document.getElementById("info");
+
+    function markdownToHtml(md) {
+      return md
+        .replace(/^###### (.*$)/gim, "<h6>$1</h6>")
+        .replace(/^##### (.*$)/gim, "<h5>$1</h5>")
+        .replace(/^#### (.*$)/gim, "<h4>$1</h4>")
+        .replace(/^### (.*$)/gim, "<h3>$1</h3>")
+        .replace(/^## (.*$)/gim, "<h2>$1</h2>")
+        .replace(/^# (.*$)/gim, "<h1>$1</h1>")
+        .replace(/\*\*(.*?)\*\*/gim, "<b>$1</b>")
+        .replace(/\*(.*?)\*/gim, "<i>$1</i>")
+        .replace(/!\[(.*?)\]\((.*?)\)/gim, "<img alt='$1' src='$2' />")
+        .replace(/\[(.*?)\]\((.*?)\)/gim, "<a href='$2'>$1</a>")
+        .replace(/```([\s\S]*?)```/gim, "<pre><code>$1</code></pre>")
+        .replace(/^- (.*$)/gim, "<li>$1</li>")
+        .replace(/<li>([\s\S]*?)<\/li>/gim, "<ul>$&</ul>")
+        .replace(/\n$/gim, "<br />");
+    }
+
+    function updatePreview() {
+      const html = markdownToHtml(textarea.value);
+      const doc = previewFrame.contentDocument || previewFrame.contentWindow.document;
+      doc.open();
+      doc.write(`<link rel=\"stylesheet\" href=\"../css/blog.css\">${html}`);
+      doc.close();
+
+      tocList.innerHTML = "";
+      const headings = doc.querySelectorAll("h2, h3");
+      headings.forEach(h => {
+        const id = h.textContent.replace(/\s+/g, "-").toLowerCase();
+        h.id = id;
+        const li = document.createElement("li");
+        li.innerHTML = `<a href='#${id}' target='_self'>${h.textContent}</a>`;
+        tocList.appendChild(li);
+      });
+
+      const wordCount = textarea.value.trim().split(/\s+/).length;
+      const readTime = Math.ceil(wordCount / 200);
+      infoBox.innerHTML = `<p>Auteur : Jacob Allen</p><p>Lecture : ~${readTime} min</p>`;
+    }
+
+    function saveArticle() {
+      const articles = JSON.parse(localStorage.getItem("builder_articles") || "[]");
+      articles.push({ content: textarea.value, date: new Date().toISOString() });
+      localStorage.setItem("builder_articles", JSON.stringify(articles));
+      alert("✅ Article sauvegardé !");
+    }
+
+    function exportArticle() {
+      const html = markdownToHtml(textarea.value);
+      const fullHtml = `<!DOCTYPE html>\n<html lang='fr'>\n<head>\n<meta charset='UTF-8'>\n<title>Article</title>\n<link rel='stylesheet' href='../css/blog.css'>\n</head>\n<body>\n${html}\n</body>\n</html>`;
+      const blob = new Blob([fullHtml], { type: "text/html" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "article.html";
+      a.click();
+      URL.revokeObjectURL(url);
+    }
+
+    document.getElementById("btn-preview").addEventListener("click", updatePreview);
+    document.getElementById("btn-save").addEventListener("click", saveArticle);
+    document.getElementById("btn-export").addEventListener("click", exportArticle);
+  });
+  </script>
+</body>
+</html>

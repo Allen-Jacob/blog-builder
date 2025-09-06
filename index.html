@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Builder - Jacob Allen</title>
+<link rel="stylesheet" href="builder.css">
+</head>
+<body>
+<div class="stars"></div>
+<div class="stars2"></div>
+<div class="stars3"></div>
+
+<header>
+    <h1>✨ Builder d'Articles Galaxy</h1>
+    <div class="header-buttons">
+        <button id="previewBtn"><span>🌟</span> Aperçu</button>
+        <button id="saveBtn"><span>💾</span> Sauvegarder</button>
+        <button id="exportBtn"><span>🚀</span> Exporter</button>
+        <button id="copyBtn"><span>📋</span> Copier HTML</button>
+    </div>
+</header>
+
+<main>
+    <section class="form-section">
+        <div class="form-card">
+            <label for="articleTitle"><span class="icon">🎯</span> Titre de l'article</label>
+            <input type="text" id="articleTitle" placeholder="Ex: Comment créer un blog moderne">
+        </div>
+        
+        <div class="form-card">
+            <label for="articleDate"><span class="icon">📅</span> Date de publication</label>
+            <input type="date" id="articleDate">
+        </div>
+        
+        <div class="form-card">
+            <label for="readingTime"><span class="icon">⏱️</span> Temps de lecture (min)</label>
+            <input type="number" id="readingTime" placeholder="5">
+        </div>
+        
+        <div class="form-card full-width">
+            <label for="articleIntro"><span class="icon">🌸</span> Introduction</label>
+            <textarea id="articleIntro" placeholder="Votre introduction accrocheuse qui apparaîtra entre le titre et les points d'apprentissage..."></textarea>
+        </div>
+        
+        <div class="form-card full-width">
+            <label for="learningPoints"><span class="icon">🎯</span> Ce que vous apprenez</label>
+            <textarea id="learningPoints" placeholder="Liste des points que le lecteur va apprendre..."></textarea>
+        </div>
+    </section>
+
+    <section class="editor-section">
+        <div class="section-header">
+            <h2><span class="icon">📝</span> Éditeur de contenu</h2>
+            <div class="tip">Markdown + Images supportés</div>
+        </div>
+        <div class="editor-help">
+            <h4>🖼️ Syntaxes pour les images :</h4>
+            <div class="syntax-examples">
+                <div class="syntax-item">
+                    <strong>Image simple :</strong>
+                    <code>/img https://example.com/image.jpg Texte alternatif</code>
+                </div>
+                <div class="syntax-item">
+                    <strong>Image avec légende :</strong>
+                    <code>/img https://example.com/image.jpg Alt text | Ma belle légende</code>
+                </div>
+                <div class="syntax-item">
+                    <strong>Markdown standard :</strong>
+                    <code>![Alt text](https://example.com/image.jpg "Légende optionnelle")</code>
+                </div>
+                <div class="syntax-item">
+                    <strong>Galerie d'images :</strong>
+                    <code>/gallery url1.jpg,url2.jpg,url3.jpg</code>
+                </div>
+                <div class="syntax-item">
+                    <strong>Blocs de code :</strong>
+                    <code>/code ... votre code ... /code</code>
+                </div>
+            </div>
+        </div>
+        <textarea id="editor" placeholder="Écrivez votre article ici...&#10;&#10;## Premier chapitre&#10;Votre contenu ici...&#10;&#10;/img https://via.placeholder.com/600x300 Image exemple | Voici une belle image d'exemple&#10;&#10;### Sous-section&#10;Plus de contenu...&#10;&#10;/gallery https://via.placeholder.com/300x200,https://via.placeholder.com/300x200,https://via.placeholder.com/300x200"></textarea>
+    </section>
+
+    <section class="preview-section">
+        <div class="section-header">
+            <h2><span class="icon">👀</span> Aperçu en temps réel</h2>
+        </div>
+        <div class="preview-container">
+            <iframe id="previewFrame"></iframe>
+        </div>
+    </section>
+
+    <section class="html-section">
+        <div class="section-header">
+            <h2><span class="icon">📄</span> HTML généré</h2>
+        </div>
+        <textarea id="htmlOutput" readonly placeholder="Le HTML généré apparaîtra ici après aperçu..."></textarea>
+    </section>
+</main>
+
+<footer>
+    <div class="footer-content">
+        <p>✨ Made with love by <span class="highlight">Jacob Allen</span> ✨</p>
+        <div class="footer-sparkles">⭐ 🌟 ✨ 💫</div>
+    </div>
+</footer>
+
+<script src="builder.js"></script>
+</body>
+</html>
