@@ -23,15 +23,19 @@ function processCodeBlocks(text) {
 function markdownToHTML(md, title, intro, learningPoints) {
     let html = `<h1 style="color:#ff6b9d;">${title}</h1>\n`;
 
-    // Ajout de l'introduction entre le titre et "Ce que vous apprenez"
-    if (intro) {
-        html += `<div class="intro-section"><p class="intro">${intro}</p></div>\n`;
-    }
+// Ajout de l'introduction entre le titre et "Ce que vous apprenez"
+if (intro) {
+    // Conversion des retours à la ligne pour l'intro aussi
+    const formattedIntro = intro.replace(/\n/g, '<br>');
+    html += `<div class="intro-section"><p class="intro">${formattedIntro}</p></div>\n`;
+}
 
-    // Ajout de la boîte "Ce que vous apprenez"
-    if (learningPoints) {
-        html += `<div class="highlight-box"><h4>🎯 Ce que vous apprendrez</h4><p>${learningPoints}</p></div>\n`;
-    }
+// Ajout de la boîte "Ce que vous apprenez" avec gestion des retours à la ligne
+if (learningPoints) {
+    // Remplace tous les retours à la ligne (\n) par des <br> HTML
+    const formattedLearningPoints = learningPoints.replace(/\n/g, '<br>');
+    html += `<div class="highlight-box"><h4>🎯 Ce que vous apprendrez</h4><p>${formattedLearningPoints}</p></div>\n`;
+}
 
     // Traitement du contenu Markdown
     const blocks = md.split(/\n\s*\n/);
