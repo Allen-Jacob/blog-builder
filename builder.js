@@ -190,7 +190,7 @@ function getArticleTemplate(content, title, date, readingTime, intro, learningPo
 <body>
 <header>
 <nav>
-<a href="/" class="logo">Jacob Allen</a>
+<a href="/" class="logo">🚀 Jacob Allen</a>
 <div class="nav-center">${title}</div>
 <a href="/blog/" class="back-btn">← Retour au blog</a>
 </nav>
@@ -215,7 +215,7 @@ ${markdownToHTML(content, title, intro, learningPoints)}
 </article>
 </div>
 <footer>
-<p>&copy; 2025 Jacob Allen. Tous droits réservés.</p>
+<p>&copy; 2025 Jacob Allen. All rights reserved.</p>
 </footer>
 
 <!-- Modal pour agrandir les images -->
