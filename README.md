@@ -37,4 +37,6 @@ Il fournit également un aperçu en direct et un bouton pour copier facilement l
 1. Cloner ou télécharger le projet :
 
 ```bash
-git clone https://github.com/jacoballen/builder.git /var/www/builder
+git clone https://github.com/jacoballen/builder.git /var/www/builder<
+
+- 📧 Email : [contact@jacoballen.ca]
